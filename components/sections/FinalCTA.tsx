@@ -13,19 +13,17 @@ export function FinalCTA() {
         </p>
         <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
           <Link 
-            href="/kontakt"
+            href="/bezplatna-konsultacja"
             className="inline-flex items-center justify-center gap-3 bg-black text-white px-8 py-4 font-bold text-[10px] sm:text-xs uppercase tracking-widest hover:bg-neutral-800 transition-colors w-full sm:w-auto"
-          >
-            Napisz do mnie
-          </Link>
-          <Link 
-            href="https://roksanaglowinska.bookero.pl"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center justify-center gap-3 bg-transparent border border-black text-black px-8 py-4 font-bold text-[10px] sm:text-xs uppercase tracking-widest hover:bg-neutral-50 transition-colors w-full sm:w-auto"
           >
             Umów się na bezpłatną konsultację
             <ArrowRight className="w-4 h-4" />
+          </Link>
+          <Link 
+            href="/kontakt"
+            className="inline-flex items-center justify-center gap-3 bg-transparent border border-black text-black px-8 py-4 font-bold text-[10px] sm:text-xs uppercase tracking-widest hover:bg-neutral-50 transition-colors w-full sm:w-auto"
+          >
+            Napisz do mnie
           </Link>
         </div>
       </div>

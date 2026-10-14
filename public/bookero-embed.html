@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rezerwacja Terminu - Roksana Głowińska</title>
+  
+  <!-- Oficjalna czcionka strony: Jost ze wsparciem polskich znaków (latin-ext) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&display=swap&subset=latin,latin-ext" rel="stylesheet">
+  
+  <!-- Oryginalne style Bookero -->
+  <link rel="stylesheet" type="text/css" href="https://cdn.bookero.pl/plugin/v2/css/bookero-compiled-v-1-6-5-2.css">
+  
+  <style>
+    :root {
+      --bookero-plugin-color-primary: #AED2C2;
+      --bookero-accent: #AED2C2;
+    }
+
+    /* 100% spójności typograficznej: Wszystkie elementy w ramce dziedziczą font Jost */
+    *, *::before, *::after,
+    html, body,
+    input, textarea, select, button,
+    .bookero-plugin-form,
+    .bookero-plugin-form *,
+    .multiselect,
+    .multiselect *,
+    .multiselect__single,
+    .multiselect__option,
+    .multiselect__input,
+    .calendar,
+    .calendar *,
+    .calendar-wrapper,
+    .calendar-wrapper *,
+    .calendar-days-heading-cell,
+    .calendar-days-list-cell,
+    .calendar-nav-month,
+    .hours-section,
+    .hours-section *,
+    .hours-list-item,
+    .submit-section,
+    .submit-button,
+    .field,
+    .field * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Jost', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+    
+    html, body {
+      background: transparent;
+      color: #171717;
+      overflow: hidden !important;
+      height: auto !important;
+      min-height: 0 !important;
+    }
+    
+    #bookero,
+    #bookero-plugin {
+      width: 100%;
+      height: auto !important;
+      min-height: 0 !important;
+    }
+
+    /* Usunięcie sztucznego min-height: 750px i górnego paddingu Bookero */
+    body .bookero-plugin-hideable-part,
+    body .bookero-plugin-new-item-form,
+    body .bookero-plugin-form-wrapper,
+    body .bookero-plugin-form {
+      min-height: 0 !important;
+      height: auto !important;
+      padding-top: 0 !important;
+      margin-top: 0 !important;
+    }
+
+    /* Ukrywamy nagłówki techniczne Bookero */
+    body .bookero-plugin-header {
+      display: none !important;
+    }
+    
+    .bookero-plugin-form-heading-summary-main-info,
+    .bookero-plugin-form-heading-term,
+    h3.bookero-plugin-form-heading {
+      display: none !important;
+    }
+    
+    label.label-service {
+      display: none !important;
+    }
+
+    /* Ukrycie stopki Bookero i "* pola wymagane" */
+    a[href*="bookero.pl"],
+    div:has(> a[href*="bookero.pl"]),
+    .bookero-plugin-footer,
+    .required-fields-notice {
+      display: none !important;
+    }
+
+    /* Odstępy */
+    .field:has(.label-service),
+    .field:has([name="service"]),
+    .field.is-required {
+      margin-bottom: 0.5rem !important;
+    }
+
+    .dates-section {
+      margin-top: 0 !important;
+      padding-top: 0 !important;
+    }
+
+    .calendar-wrapper,
+    .calendar {
+      margin-top: 0 !important;
+    }
+
+    .calendar-days-list {
+      margin-top: 0.2rem !important;
+    }
+
+    .hours-section {
+      margin-top: 0.6rem !important;
+      padding-top: 0 !important;
+    }
+
+    .submit-section {
+      margin-top: 0.75rem !important;
+      margin-bottom: 0 !important;
+      padding-bottom: 0 !important;
+    }
+    
+    /* Stylizacja nagłówków w foncie Jost */
+    .bookero-plugin-form h2, 
+    .bookero-plugin-form h3,
+    .bookero-plugin-header-title,
+    .bookero-plugin-new-item-form-title {
+      font-weight: 700 !important;
+      letter-spacing: -0.02em !important;
+      text-transform: uppercase !important;
+      color: #171717 !important;
+      margin-bottom: 0.5rem !important;
+    }
+
+    /* ========================================================= */
+    /* ZAMIANA KOLORÓW NIEBIESKICH NA MIĘTOWE (#AED2C2) */
+    /* ========================================================= */
+
+    /* 1. DNI W KALENDARZU (MONTHLY BOX) */
+    .calendar-nav-month {
+      font-weight: 600 !important;
+      letter-spacing: -0.01em !important;
+      color: #171717 !important;
+    }
+
+    .calendar-days-heading-cell {
+      font-weight: 600 !important;
+      text-transform: uppercase !important;
+      font-size: 13px !important;
+      letter-spacing: 0.05em !important;
+      color: #737373 !important;
+    }
+
+    .calendar-days-list-cell {
+      font-size: 15px !important;
+      font-weight: 500 !important;
+    }
+
+    .calendar-days-list-cell.is-valid {
+      background: #f0f7f3 !important;
+      border: 1px solid #cce5d9 !important;
+      color: #171717 !important;
+      border-radius: 4px !important;
+      font-weight: 600 !important;
+      transition: all 0.15s ease !important;
+    }
+    .calendar-days-list-cell.is-valid:hover {
+      background: #AED2C2 !important;
+      border-color: #AED2C2 !important;
+      color: #000000 !important;
+    }
+
+    .calendar-days-list-cell.is-selected,
+    .calendar-days-list-cell.is-selected:hover,
+    .calendar-days-list-cell.is-selected.is-valid {
+      background: #AED2C2 !important;
+      border-color: #AED2C2 !important;
+      color: #000000 !important;
+      font-weight: 700 !important;
+      border-radius: 4px !important;
+    }
+
+    .dates-section .vdp-datepicker__calendar .cell.selected,
+    .dates-section .vdp-datepicker__calendar .cell:not(.blank):not(.disabled).day:hover {
+      background: #AED2C2 !important;
+      color: #000000 !important;
+      border-radius: 4px !important;
+    }
+
+    /* 2. GODZINY (WYBIERZ GODZINĘ: 09:30, 10:00, 10:30) */
+    .hours-section .hours-wrapper .hours-list-item {
+      background: #f0f7f3 !important;
+      border: 1px solid #cce5d9 !important;
+      color: #171717 !important;
+      border-radius: 4px !important;
+      font-weight: 600 !important;
+      font-size: 15px !important;
+      transition: all 0.15s ease !important;
+    }
+    .hours-section .hours-wrapper .hours-list-item:hover {
+      background: #AED2C2 !important;
+      border-color: #AED2C2 !important;
+      color: #000000 !important;
+    }
+
+    .hours-section .hours-wrapper .hours-list-item.is-selected,
+    .hours-section .hours-wrapper .hours-list-item.is-selected:hover {
+      background: #AED2C2 !important;
+      border-color: #9bc4b3 !important;
+      color: #000000 !important;
+      font-weight: 700 !important;
+      border-radius: 4px !important;
+      box-shadow: 0 2px 6px rgba(174, 210, 194, 0.5) !important;
+    }
+
+    /* 3. PRZYCISKI AKCJI I SUBMIT */
+    .submit-section .submit-button,
+    body .bookero-plugin-header-btn,
+    .dates-section .week-view-date-info-actions a,
+    .bookero-plugin-submit-button {
+      background: #AED2C2 !important;
+      border: 1px solid #AED2C2 !important;
+      border-radius: 0px !important;
+      color: #000000 !important;
+      font-weight: 700 !important;
+      text-transform: uppercase !important;
+      letter-spacing: 0.05em !important;
+      transition: all 0.2s ease-in-out !important;
+    }
+    
+    .submit-section .submit-button:hover,
+    body .bookero-plugin-header-btn:hover,
+    .bookero-plugin-submit-button:hover {
+      background: #9bc4b3 !important;
+      border-color: #9bc4b3 !important;
+      color: #000000 !important;
+      transform: translateY(-1px);
+    }
+
+    /* 4. DROPDOWN WYBORU USŁUGI */
+    .multiselect {
+      border-radius: 0px !important;
+    }
+    .multiselect__single {
+      font-weight: 500 !important;
+      font-size: 15px !important;
+      color: #171717 !important;
+    }
+    .bookero-plugin-form .field .multiselect__option--highlight {
+      background: #AED2C2 !important;
+      color: #000000 !important;
+      font-weight: 500 !important;
+    }
+    .bookero-plugin-form .field .multiselect__option--selected {
+      font-weight: 700 !important;
+    }
+
+    /* 5. POLA FORMULARZA I ETYKIETY (KROK 2) */
+    .bookero-plugin-form .field label,
+    .bookero-plugin-form .field-label {
+      font-weight: 600 !important;
+      font-size: 14px !important;
+      color: #171717 !important;
+      letter-spacing: -0.01em !important;
+    }
+
+    .bookero-plugin-form .field input,
+    .bookero-plugin-form .field textarea,
+    .bookero-plugin-form .field select {
+      border-radius: 0px !important;
+      border-color: #e5e5e5 !important;
+      font-size: 15px !important;
+      color: #171717 !important;
+    }
+    
+    .bookero-plugin-form .field input:focus,
+    .bookero-plugin-form .field textarea:focus {
+      border-color: #AED2C2 !important;
+      box-shadow: 0 0 0 1px #AED2C2 !important;
+      outline: none !important;
+    }
+
+    /* Linki Bookero i strzałki nawigacji */
+    .bookero-plugin-form-wrapper a {
+      color: #171717 !important;
+    }
+    .calendar-nav-prev, .calendar-nav-next {
+      color: #171717 !important;
+    }
+  </style>
+</head>
+<body>
+  <div id="bookero"></div>
+
+  <script type="text/javascript">
+    window.bookero_config = {
+      id: 'c7uIT0QXJn72',
+      container: 'bookero',
+      type: 'calendar',
+      position: '',
+      plugin_css: true,
+      lang: 'pl'
+    };
+
+    (function() {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://cdn.bookero.pl/plugin/v2/js/bookero-compiled.js';
+      s.async = true;
+      d.body.appendChild(s);
+    })();
+
+    // Dokładny pomiar wysokości kończącej się tuż pod przyciskiem akcji
+    var lastHeight = 0;
+    function measureAndSendHeight() {
+      var submit = document.querySelector('.submit-section') || 
+                   document.querySelector('.submit-button') ||
+                   document.querySelector('.bookero-plugin-submit-button');
+      
+      var currentHeight = 0;
+      if (submit) {
+        var rect = submit.getBoundingClientRect();
+        currentHeight = Math.ceil(rect.bottom + 8);
+      } else {
+        var form = document.querySelector('.bookero-plugin-form') || document.getElementById('bookero');
+        if (form) {
+          currentHeight = Math.ceil(form.getBoundingClientRect().height);
+        }
+      }
+      
+      if (currentHeight > 100 && Math.abs(currentHeight - lastHeight) >= 5) {
+        lastHeight = currentHeight;
+        window.parent.postMessage({ type: 'BOOKERO_RESIZE', height: currentHeight }, '*');
+      }
+    }
+
+    window.addEventListener('load', measureAndSendHeight);
+    
+    // Obserwacja zmian w DOM kalendarza
+    var observer = new MutationObserver(function() {
+      measureAndSendHeight();
+    });
+    
+    observer.observe(document.body, {
+      childList: true,
+      subtree: true,
+      attributes: true
+    });
+  </script>
+</body>
+</html>
